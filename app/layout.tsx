@@ -26,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-white dark:bg-slate-950 ${geistSans.variable} ${geistMono.variable} antialiased relative`}
+        className={`bg-white dark:bg-slate-950 ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
-        <div className="absolute top-20">{children}</div>
+        <div className="mt-20 px-5 md:container md:mx-auto">{children}</div>
       </body>
     </html>
   );
