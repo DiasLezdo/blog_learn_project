@@ -4,7 +4,7 @@ import NavBtn from "./NavBtn";
 
 const Header: React.FC = () => {
   return (
-    <div className="flex justify-between items-center w-full h-20 px-4 bg-opacity-80 lg:border-b lg:border-slate-900/10 dark:border-slate-600 transform backdrop-blur-lg backdrop-saturate-[180%] fixed top-0">
+    <div className="flex justify-between items-center w-full h-20 px-4 bg-opacity-80 lg:border-b lg:border-slate-900/10 dark:border-slate-600 transform backdrop-blur-lg backdrop-saturate-[180%] fixed top-0 z-10">
       <div>
         <h1 className="text-5xl dark:text-cyan-500 font-signature ml-2">
           <a
