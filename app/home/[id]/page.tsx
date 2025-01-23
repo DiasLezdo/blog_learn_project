@@ -9,7 +9,12 @@ const page = async ({ params }: Props) => {
 
   console.log("para", postId);
 
-  return <div>{postId}</div>;
+  return <div>{postId}
+  
+  <h1>
+    
+  </h1>
+  </div>;
 };
 
 export default page;
