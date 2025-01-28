@@ -1,6 +1,10 @@
 "use client";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import JoditEdit from "../components/JoditEdit";
+
+const JoditEdit = dynamic(() => import("@/app/components/JoditEdit"), {
+  loading: () => <p>Loading...</p>,
+});
 
 const page = () => {
   const [data, setData] = useState("");

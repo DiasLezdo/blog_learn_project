@@ -19,5 +19,9 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   /* height: 100vh; */
-  height:100vh;
+  height: 100vh;
+}
+
+.jodit-status-bar {
+  display: none !important;
 }
