@@ -2,6 +2,8 @@
 // import mongoose from "mongoose";
 // import Post from "../../models/Post"; // Assuming Post model is in models/Post.ts
 
+import { NextResponse } from "next/server";
+
 // // Connect to MongoDB
 // const connectToDatabase = async () => {
 //   if (mongoose.connections[0].readyState) {
@@ -55,3 +57,7 @@
 //     res.status(405).json({ message: "Method not allowed" });
 //   }
 // }
+
+export async function GET() {
+  return NextResponse.json({ helo: "hello" });
+}

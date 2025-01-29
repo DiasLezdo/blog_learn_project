@@ -6,7 +6,7 @@ const JoditEdit = dynamic(() => import("@/app/components/JoditEdit"), {
   loading: () => <p>Loading...</p>,
 });
 
-const page = () => {
+const EditPage = () => {
   const [data, setData] = useState("");
 
   return (
@@ -102,4 +102,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default EditPage;

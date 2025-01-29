@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import JoditEdit from "../components/JoditEdit";
 
-const page = () => {
+const AddPost = () => {
   const [data, setData] = useState("");
 
   return (
@@ -98,4 +98,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AddPost;
