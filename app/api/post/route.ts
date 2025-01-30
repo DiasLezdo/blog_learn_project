@@ -61,3 +61,5 @@ import { NextResponse } from "next/server";
 export async function GET() {
   return NextResponse.json({ helo: "hello" });
 }
+
+// ----- ** check db error with crt validation and show at global or route erro page **--------

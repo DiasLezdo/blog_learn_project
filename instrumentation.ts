@@ -1,8 +1,8 @@
 import dbConnect from "./libs/dbConn";
 
 export async function register() {
-  try {
-    await dbConnect();
+  try { 
+    await dbConnect(); // if error come redirect or navigate to error page via api route 
   } catch (error) {
     return console.log("error", error);
   }
