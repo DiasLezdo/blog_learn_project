@@ -25,10 +25,12 @@ async function dbConnect() {
     const opts = {
       bufferCommands: false,
     };
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("Db connected");
-      return mongoose;
-    });
+    cached.promise = await mongoose
+      .connect(MONGODB_URI, opts)
+      .then((mongoose) => {
+        console.log("Db connected");
+        return mongoose;
+      });
   }
   try {
     cached.conn = await cached.promise;
