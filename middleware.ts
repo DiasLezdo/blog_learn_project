@@ -25,7 +25,6 @@ export async function middleware(request: NextRequest) {
     ) {
       const session = await request.cookies.get("session"); // Check if session exists
 
-      console.log("session", session);
       if (!session?.value) {
         return NextResponse.redirect(new URL("/signin", request.url));
       }
@@ -38,8 +37,6 @@ export async function middleware(request: NextRequest) {
     ) {
       const session = await request.cookies.get("session"); // Check if session exists
       // const session = request.cookies.has("session"); // return boolean
-
-      console.log("api session", session);
 
       if (!session?.value) {
         return NextResponse.redirect(new URL("/signin", request.url));
