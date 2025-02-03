@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Middleware function
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const pathname = url.pathname;
 
@@ -23,7 +23,7 @@ export function middleware(request: NextRequest) {
       pathname.startsWith("/profile") ||
       pathname.startsWith("/post")
     ) {
-      const session = request.cookies.get("session"); // Check if session exists
+      const session = await request.cookies.get("session"); // Check if session exists
 
       console.log("session", session);
       if (!session?.value) {
@@ -36,7 +36,7 @@ export function middleware(request: NextRequest) {
       pathname.startsWith("/api/profile") ||
       pathname.startsWith("/api/post")
     ) {
-      const session = request.cookies.get("session"); // Check if session exists
+      const session = await request.cookies.get("session"); // Check if session exists
       // const session = request.cookies.has("session"); // return boolean
 
       console.log("api session", session);

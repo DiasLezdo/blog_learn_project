@@ -13,8 +13,6 @@ const page = async () => {
 
   const cookieValue = await head.get("cookie")?.slice(8);
 
-  console.log("cookieValue", cookieValue);
-
   if (!cookieValue) {
     return redirect("/signin");
   }
