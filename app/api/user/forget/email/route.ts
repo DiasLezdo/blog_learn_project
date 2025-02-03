@@ -1,4 +1,3 @@
-import dbConnect from "@/libs/dbConn";
 import { sendMail } from "@/libs/mailTrigger";
 import { generateRandomString } from "@/libs/session";
 import OtpToken, { IOtpToken } from "@/models/otptoken";
@@ -9,7 +8,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
 
-      await dbConnect();
 
 
     const { email } = await req.json();

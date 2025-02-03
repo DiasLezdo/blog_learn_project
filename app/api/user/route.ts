@@ -1,4 +1,3 @@
-import dbConnect from "@/libs/dbConn";
 import { sendMail } from "@/libs/mailTrigger";
 import { generateRandomString } from "@/libs/session";
 import OtpToken, { IOtpToken } from "@/models/otptoken";
@@ -15,7 +14,6 @@ interface UserRequestBody {
 
 export async function POST(req: Request) {
   try {
-    await dbConnect();
 
     const { email, password, lastName, firstName }: UserRequestBody =
       await req.json();

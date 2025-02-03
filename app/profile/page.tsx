@@ -4,10 +4,8 @@ import { headers } from "next/headers";
 import { decrypt } from "@/libs/session";
 import { redirect } from "next/navigation";
 import User from "@/models/user";
-import dbConnect from "@/libs/dbConn";
 
 const page = async () => {
-  await dbConnect();
 
   const head = await headers();
 

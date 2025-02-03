@@ -1,11 +1,9 @@
-import dbConnect from "@/libs/dbConn";
 import { decrypt } from "@/libs/session";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
   try {
-    await dbConnect();
 
     const { firstName, lastName, profession, socialLinks, bio } =
       await req.json();

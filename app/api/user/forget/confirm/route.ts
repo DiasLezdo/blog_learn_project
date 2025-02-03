@@ -1,10 +1,8 @@
-import dbConnect from "@/libs/dbConn";
 import User, { IUser } from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    await dbConnect();
 
     const { password } = await req.json();
 
