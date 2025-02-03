@@ -1,6 +1,7 @@
 import "server-only";
 import { JWTPayload, SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -46,7 +47,8 @@ export async function createSession(user: JWTUser) {
   return session;
 }
 
-export async function updateSession() { //auth valid api and routes
+export async function updateSession() {
+  //auth valid api and routes
   const session = (await cookies()).get("session")?.value;
   const payload = await decrypt(session);
 
@@ -69,6 +71,8 @@ export async function updateSession() { //auth valid api and routes
 export async function deleteSession() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
+
+  return redirect("/signin");
 }
 
 export async function generateRandomString(length: number) {

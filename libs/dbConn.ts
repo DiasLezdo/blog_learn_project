@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 declare global {
   var mongoose: any; // This must be a `var` and not a `let / const`
 }
@@ -30,6 +31,9 @@ async function dbConnect() {
       .then((mongoose) => {
         console.log("Db connected");
         return mongoose;
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }
   try {

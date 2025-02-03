@@ -1,3 +1,4 @@
+import dbConnect from "@/libs/dbConn";
 import { sendMail } from "@/libs/mailTrigger";
 import { createSession, generateRandomString } from "@/libs/session";
 import OtpToken, { IOtpToken } from "@/models/otptoken";
@@ -7,6 +8,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    await dbConnect();
+
     const { otp, type } = await req.json();
 
     // Input validation
@@ -115,6 +118,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const headers = req.headers;
+
+  await dbConnect();
 
   console.log(headers);
 

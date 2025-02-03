@@ -16,6 +16,8 @@ export interface IUser extends Document {
   password: string;
   role: number;
   avatar?: string;
+  bio?: string;
+  profession?: string;
   socialLinks?: SocialLinks;
   verify: Boolean;
   // Method to compare password
@@ -53,6 +55,14 @@ const UserSchema: Schema<IUser> = new Schema(
     avatar: {
       type: String,
       default: "",
+    },
+    bio: {
+      type: String,
+      default: "No Bio",
+    },
+    profession: {
+      type: String,
+      default: "Content Writter",
     },
     role: {
       type: Number,

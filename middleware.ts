@@ -23,12 +23,44 @@ export function middleware(request: NextRequest) {
       pathname.startsWith("/profile") ||
       pathname.startsWith("/post")
     ) {
-      // console.log("req", request.cookies.getAll());
       const session = request.cookies.get("session"); // Check if session exists
 
-      if (!session) {
+      console.log("session", session);
+      if (!session?.value) {
         return NextResponse.redirect(new URL("/signin", request.url));
       }
+    }
+
+    if (
+      // pathname.startsWith("/home") ||
+      pathname.startsWith("/api/profile") ||
+      pathname.startsWith("/api/post")
+    ) {
+      const session = request.cookies.get("session"); // Check if session exists
+      // const session = request.cookies.has("session"); // return boolean
+
+      console.log("api session", session);
+
+      if (!session?.value) {
+        return NextResponse.redirect(new URL("/signin", request.url));
+      }
+
+      const requestHeaders = new Headers(request.headers);
+      // requestHeaders.set("x-auth-user-middleware", session.value);
+
+      // return NextResponse.next();
+
+      // You can also set request headers in NextResponse.next
+      const response = NextResponse.next({
+        request: {
+          // New request headers
+          headers: requestHeaders,
+        },
+      });
+
+      // Set a new response header `x-hello-from-middleware2`
+      response.headers.set("x-auth-user-middleware", session?.value);
+      return response;
     }
 
     // **3️⃣ Admin Access Control**
@@ -51,9 +83,10 @@ export function middleware(request: NextRequest) {
 // **Configure Matching Routes**
 export const config = {
   matcher: [
+    "/post", // Match all under /post (session check)
+    // "/post/:path*", // Match all under /post (session check)
+    "/profile", // Match all under /profile (session check)
     "/:path*", // Match all under /instrumentation
-    "/post/:path*", // Match all under /dashboard (session check)
-    "/profile/:path*", // Match all under /profile (session check)
     "/admin/:path*", // Match all under /admin (admin check)
   ],
 };
