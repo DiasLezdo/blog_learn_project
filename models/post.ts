@@ -19,6 +19,7 @@ export interface IPost extends Document {
   description: string;
   visible: "private" | "public"; // Enforcing only these two values
   content: string;
+  thumbnail: string;
   createdUser: mongoose.Types.ObjectId; // Refers to a User
   comments: IComment[];
   likes: ILike[];
@@ -44,6 +45,10 @@ const PostSchema: Schema = new Schema(
       required: true,
     },
     content: {
+      type: String,
+      required: true,
+    },
+    thumbnail: {
       type: String,
       required: true,
     },
@@ -84,7 +89,8 @@ const PostSchema: Schema = new Schema(
     ],
     rating: {
       type: Number,
-      required: true,
+      // required: true,
+      default: 1,
       min: 1,
       max: 5, // Rating must be between 1 and 5
     },
@@ -93,6 +99,6 @@ const PostSchema: Schema = new Schema(
 );
 
 // Create the model
-const Post = mongoose.model<IPost>("Post", PostSchema);
+const Post = mongoose.models.Post || mongoose.model<IPost>("Post", PostSchema);
 
 export default Post;
