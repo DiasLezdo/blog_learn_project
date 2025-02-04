@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cloudinary": "^2.5.1",
     "jodit-react": "^5.0.10",
     "jose": "^5.9.6",
     "mongoose": "^8.9.5",

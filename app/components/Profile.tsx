@@ -1,8 +1,8 @@
 import React from "react";
 import ProfileLinks from "./ProfileLinks";
-import Image from "next/image";
 import ProfileEditBtn from "./ProfileEditBtn";
 import Logout from "./Logout";
+import ProfilePhoto from "./ProfilePhoto";
 
 export interface ProfileVal {
   avatar?: string;
@@ -39,17 +39,7 @@ const Profile = ({
         />
         <Logout />
       </div>
-      <Image
-        className="rounded-full mx-auto w-32 h-32"
-        src={avatar ? avatar : "/profile/nopro.webp"}
-        alt={firstName}
-        width={128} // width of the image (adjusted for 32px in the original)
-        height={128} // height of the image (adjusted for 32px in the original)
-        // layout="intrinsic"
-        style={{
-          objectFit: "cover",
-        }}
-      />
+      <ProfilePhoto avatar={avatar} firstName={firstName} />
       <div className="text-sm mt-5">
         <span className="font-medium leading-none text-gray-900 dark:text-white hover:text-indigo-600 transition duration-500 ease-in-out">
           {firstName} {lastName}
