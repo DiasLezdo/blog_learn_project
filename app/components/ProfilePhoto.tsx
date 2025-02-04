@@ -158,6 +158,7 @@ const ProfilePhoto = ({ avatar, firstName }: Props) => {
                     width={128} // width of the image (adjusted for 32px in the original)
                     height={128} // height of the image (adjusted for 32px in the original)
                     // layout="intrinsic"
+                    quality={100}
                     style={{
                       objectFit: "cover",
                     }}
