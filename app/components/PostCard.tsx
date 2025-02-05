@@ -15,6 +15,13 @@ const PostCard = ({
   content = "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
   img = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/800px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg",
 }: Props) => {
+  function truncateString(str: string) {
+    if (str.length > 103) {
+      return str.slice(0, 103) + "...";
+    }
+    return str;
+  }
+
   return (
     <div
       key={id}
@@ -38,7 +45,7 @@ const PostCard = ({
         </h5>
 
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          {content}
+          {truncateString(content)}
         </p>
 
         <Link

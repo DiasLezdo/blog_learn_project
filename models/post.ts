@@ -41,6 +41,7 @@ const PostSchema: Schema = new Schema(
     },
     visible: {
       type: String,
+      default: "public",
       enum: ["private", "public"],
       required: true,
     },

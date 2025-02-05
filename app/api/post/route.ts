@@ -17,11 +17,9 @@ export async function POST(req: NextRequest) {
   try {
     // Access form data from the request
     const data = await req.formData(); // Correcting formData() usage
-    console.log("data", data); // Log the form data
 
     // Get session cookie
     const gg = await req.cookies.get("session");
-    console.log("Session Cookie:", gg);
 
     if (!gg) {
       return new Response(JSON.stringify({ message: "Session not found" }), {
@@ -72,7 +70,7 @@ export async function POST(req: NextRequest) {
       });
 
       const result = await post.save();
-      console.log("Post saved:", result);
+      // console.log("Post saved:", result);
     }
 
     return new Response(JSON.stringify({ message: "Post Added" }), {

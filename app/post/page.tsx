@@ -15,8 +15,6 @@ const AddPost = () => {
 
   const router = useRouter();
 
-  console.log("data", thumbnail);
-
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; // Check if files is not null and get the first file
     if (file) {
