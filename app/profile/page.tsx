@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import User from "@/models/user";
 
 const page = async () => {
-
   const head = await headers();
 
   const cookieValue = await head.get("cookie")?.slice(8);
@@ -26,6 +25,8 @@ const page = async () => {
       bio: 1,
       profession: 1,
     });
+
+    console.log("user", user);
 
     if (!user) {
       return redirect("/signin");
@@ -47,7 +48,7 @@ const page = async () => {
     );
   } catch (error) {
     console.error("error", error);
-    // return redirect("/error/server");
+    return redirect("/signin");
   }
 };
 

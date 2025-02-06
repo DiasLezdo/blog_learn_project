@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
         thumbnail: uploadResult.secure_url,
       });
 
-      const result = await post.save();
+      await post.save();
       // console.log("Post saved:", result);
     }
 

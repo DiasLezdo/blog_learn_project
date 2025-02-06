@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 // const { ObjectId } = mongoose.Schema;
 
 export interface IOtpToken extends Document {
-  userId: mongoose.Types.ObjectId; // Refers to a User
+  userId: Schema.Types.ObjectId; // Refers to a User
   createdAt: Date;
   expiresAt: Date;
   token: string;
@@ -14,7 +14,7 @@ const tokenSchema: Schema = new Schema({
   userId: {
     // objectId from user unique user id [in DB]
     //
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     // type:ObjectId,
     ref: "User",
     required: true,

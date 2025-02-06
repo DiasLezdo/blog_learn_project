@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 // it should visible only if header has a value of error : true
@@ -17,12 +18,13 @@ const page = () => {
             Sorry, we can&apos;t find that page. You&apos;ll find lots to
             explore on the home page.{" "}
           </p>
-          <button
-            type="button"
+          <Link
+            href={"/home"}
+            // type="button"
             className="inline-flex text-center text-white bg-gray-800 hover:bg-gray-900 text-center focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-cyan-500 dark:hover:bg-cyan-700 dark:focus:ring-gray-700 dark:border-gray-700"
           >
             homePage
-          </button>
+          </Link>
         </div>
       </div>
     </section>

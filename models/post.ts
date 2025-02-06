@@ -2,14 +2,14 @@ import mongoose, { Schema, Document } from "mongoose";
 
 // Define the structure of a Comment
 interface IComment {
-  user: mongoose.Types.ObjectId;
+  user: Schema.Types.ObjectId;
   text: string;
   createdAt: Date;
 }
 
 // Define the structure of a Like
 interface ILike {
-  user: mongoose.Types.ObjectId;
+  user: Schema.Types.ObjectId;
   createdAt: Date;
 }
 
@@ -20,7 +20,7 @@ export interface IPost extends Document {
   visible: "private" | "public"; // Enforcing only these two values
   content: string;
   thumbnail: string;
-  createdUser: mongoose.Types.ObjectId; // Refers to a User
+  createdUser: Schema.Types.ObjectId; // Refers to a User
   comments: IComment[];
   likes: ILike[];
   rating: number; // Rating between 1 and 5
@@ -54,14 +54,14 @@ const PostSchema: Schema = new Schema(
       required: true,
     },
     createdUser: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User", // Refers to a User model
       required: true,
     },
     comments: [
       {
         user: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           ref: "User", // Refers to a User model for comment's author
           required: true,
         },
@@ -78,7 +78,7 @@ const PostSchema: Schema = new Schema(
     likes: [
       {
         user: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           ref: "User", // Refers to a User model for who liked the post
           required: true,
         },
