@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { decrypt } from "./libs/session";
 
 // Middleware function
 export async function middleware(request: NextRequest) {
@@ -62,11 +63,13 @@ export async function middleware(request: NextRequest) {
 
     // **3️⃣ Admin Access Control**
     if (pathname.startsWith("/admin")) {
-      const adminSession = request.cookies.get("admin-token"); // Example check
+      const adminSession = await request.cookies.get("session"); // Example check
 
-      if (!adminSession || adminSession.value !== "valid-admin-token") {
-        return NextResponse.redirect(new URL("/not-authorized", request.url));
+      if (!adminSession || !adminSession.value) {
+        return NextResponse.redirect(new URL("/error/other", request.url));
       }
+
+      return NextResponse.next();
     }
 
     // Allow request to proceed

@@ -46,7 +46,7 @@ const EditPost = () => {
 
   useEffect(() => {
     getData();
-  }, [params]);
+  }, [params.id]);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; // Check if files is not null and get the first file
@@ -99,6 +99,29 @@ const EditPost = () => {
 
     if (res.status == 200) {
       return router.push("/home");
+    } else {
+      setError(result.error);
+    }
+  };
+
+  const deleteHandler = async (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setError("");
+    const res = await fetch("/api/post/" + params.id, {
+      method: "DELETE",
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
+    });
+
+    const result = await res.json();
+
+    setLoading(false);
+
+    if (res.status == 200) {
+      return router.push("/mypost");
     } else {
       setError(result.error);
     }
@@ -197,6 +220,17 @@ const EditPost = () => {
             <PiSpinnerGapThin className="inline text-center" />
           ) : (
             "Post"
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={deleteHandler}
+          className="block mt-3 text-white bg-gray-800 hover:bg-gray-900 text-center focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-cyan-500 dark:hover:bg-cyan-700 dark:focus:ring-gray-700 dark:border-gray-700"
+        >
+          {loading ? (
+            <PiSpinnerGapThin className="inline text-center" />
+          ) : (
+            "Delete"
           )}
         </button>
       </form>

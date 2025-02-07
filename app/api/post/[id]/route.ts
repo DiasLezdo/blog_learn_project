@@ -149,3 +149,46 @@ export async function PUT(
     );
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const postId = (await params).id;
+
+  const gg = await req.cookies.get("session");
+
+  if (!gg) {
+    return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
+  }
+
+  // Decrypt session cookie value
+  const sessionValue = await decrypt(gg?.value);
+  if (!sessionValue) {
+    return NextResponse.json({ error: "invalid Session" }, { status: 400 });
+  }
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return NextResponse.json({ error: "Post not valid" }, { status: 400 });
+  }
+
+  if (
+    post.createdUser.toString() == sessionValue._id ||
+    sessionValue.role == 1
+  ) {
+    try {
+      await Post.findByIdAndDelete(postId);
+    } catch (error) {
+      return NextResponse.json(
+        { error: "post not Deleted", errorCatch: error },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json({ message: "Post Deleted" }, { status: 200 });
+  } else {
+    return NextResponse.json({ error: "Not Auth" }, { status: 400 });
+  }
+}

@@ -26,7 +26,7 @@ const page = async () => {
       profession: 1,
     });
 
-    console.log("user", user);
+    // console.log("user", user);
 
     if (!user) {
       return redirect("/signin");

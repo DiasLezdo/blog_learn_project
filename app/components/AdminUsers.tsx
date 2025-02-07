@@ -1,12 +1,10 @@
 import React from "react";
 import ProfileLinks from "./ProfileLinks";
-import ProfileEditBtn from "./ProfileEditBtn";
-import Logout from "./Logout";
 import ProfilePhoto from "./ProfilePhoto";
-import Link from "next/link";
-import { BsPostcardHeart } from "react-icons/bs";
+import UserDelet from "./UserDelet";
 
 export interface ProfileVal {
+  _id: string;
   avatar?: string;
   lastName: string;
   firstName: string;
@@ -15,9 +13,10 @@ export interface ProfileVal {
   linkedin: string;
   twitter: string;
   facebook: string;
+  email: string;
 }
 
-const Profile = ({
+const AdminUsers = ({
   firstName,
   lastName,
   avatar,
@@ -26,23 +25,13 @@ const Profile = ({
   linkedin,
   bio,
   profession,
+  _id,
+  email,
 }: ProfileVal) => {
   return (
     <div className="p-5 border rounded text-center text-gray-500 max-w-lg mx-auto flex flex-col gap-3">
       <div className="text-end">
-        <ProfileEditBtn
-          firstName={firstName}
-          lastName={lastName}
-          twitter={twitter}
-          linkedin={linkedin}
-          facebook={facebook}
-          bio={bio}
-          profession={profession}
-        />
-        <Logout />
-        <Link href={"/mypost"}>
-          <BsPostcardHeart className="inline-block cursor-pointer ml-2" />
-        </Link>
+        <UserDelet id={_id.toString()} />
       </div>
       <ProfilePhoto avatar={avatar} firstName={firstName} />
       <div className="text-sm mt-5">
@@ -50,6 +39,7 @@ const Profile = ({
           {firstName} {lastName}
         </span>
         <p>{profession}</p>
+        <p>{email}</p>
       </div>
 
       <p className="mt-2 text-sm text-gray-900 dark:text-white">{bio}</p>
@@ -58,4 +48,4 @@ const Profile = ({
   );
 };
 
-export default Profile;
+export default AdminUsers;
