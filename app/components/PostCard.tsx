@@ -7,6 +7,7 @@ interface Props {
   title?: string;
   content?: string;
   img?: string;
+  edit?: boolean;
 }
 
 const PostCard = ({
@@ -14,6 +15,7 @@ const PostCard = ({
   title = "Noteworthy technology acquisitions 2021",
   content = "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
   img = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/800px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg",
+  edit = false,
 }: Props) => {
   function truncateString(str: string) {
     if (str.length > 103) {
@@ -47,28 +49,52 @@ const PostCard = ({
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           {truncateString(content)}
         </p>
-
-        <Link
-          href={"/home/" + id}
-          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white dark:bg-cyan-500 bg-gray-800 hover:bg-gray-500 rounded-lg dark:hover:bg-cyan-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700"
-        >
-          Read more
-          <svg
-            className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
+        <div className="flex items-center justify-start flex-row gap-2">
+          <Link
+            href={"/home/" + id}
+            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white dark:bg-cyan-500 bg-gray-800 hover:bg-gray-500 rounded-lg dark:hover:bg-cyan-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700"
           >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </Link>
+            Read more
+            <svg
+              className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
+              />
+            </svg>
+          </Link>
+          {edit && (
+            <Link
+              href={"/home/" + id + "/edit"}
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white dark:bg-cyan-500 bg-gray-800 hover:bg-gray-500 rounded-lg dark:hover:bg-cyan-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700"
+            >
+              Edit
+              <svg
+                className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                />
+              </svg>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

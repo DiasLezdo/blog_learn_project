@@ -1,89 +1,186 @@
 "use client";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import { PiSpinnerGapThin } from "react-icons/pi";
 
 const JoditEdit = dynamic(() => import("@/app/components/JoditEdit"), {
   loading: () => <p>Loading...</p>,
 });
 
-const EditPage = () => {
+const EditPost = () => {
   const [data, setData] = useState("");
+  const [title, setTitle] = useState("");
+  const [thumbnail, setThumbnail] = useState<File | undefined>(undefined);
+  const [thumbnailString, setThumbnailString] = useState<string>("");
+  const [description, setDescription] = useState("");
+  const [visible, setVisible] = useState("public");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const params = useParams<{ id: string }>();
+  const router = useRouter();
+
+  async function getData() {
+    setLoading(true);
+
+    const post = await fetch("/api/post/" + params.id);
+    const result = await post.json();
+
+    if (post.status == 200) {
+      console.log("post", result);
+      await setData(result.post.content);
+      await setTitle(result.post.title);
+      await setDescription(result.post.description);
+      await setVisible(result.post.visible);
+      await setThumbnailString(result.post.thumbnail);
+      await setLoading(false);
+      return;
+    } else if (post.status == 401) {
+      return setError(result.error);
+    } else {
+      return router.push("/home");
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, [params]);
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]; // Check if files is not null and get the first file
+    if (file) {
+      setThumbnail(file); // Set the file as photo
+    }
+  }
+
+  const submitHandler = async (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    if (data.length < 10) {
+      return setError("Enter Valid content.");
+    }
+    if (title.length < 3) {
+      return setError("Enter valid title");
+    }
+    if (description.length < 6) {
+      return setError("Enter valid title");
+    }
+
+    const formData = new FormData();
+    formData.append("content", data);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("visible", visible);
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail);
+    }
+
+    setLoading(true);
+    setError("");
+    const res = await fetch("/api/post/" + params.id, {
+      method: "PUT",
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
+      // body: JSON.stringify({
+      //   content: data,
+      //   title,
+      //   description,
+      //   visible,
+      // }),
+      body: formData,
+    });
+
+    const result = await res.json();
+
+    setLoading(false);
+
+    if (res.status == 200) {
+      return router.push("/home");
+    } else {
+      setError(result.error);
+    }
+  };
 
   return (
     <div className="dark:text-cyan-500 mt-5">
       <form className="max-w-3xl mx-auto flex flex-col gap-3">
         <div>
           <label
-            htmlFor="small-input"
+            htmlFor="Title"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Title
           </label>
           <input
             type="text"
-            id="small-input"
+            id="Title"
             className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>
           <label
-            htmlFor="message"
+            htmlFor="description"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Your message
           </label>
           <textarea
-            id="message"
+            id="description"
             rows={4}
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Add yours ..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
 
-        {/* <div className="flex items-center justify-center w-full">
+        <div>
           <label
-            htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            htmlFor="file_input"
           >
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg
-                className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 16"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                />
-              </svg>
-              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Click to upload</span> or drag
-                and drop
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
-              </p>
-            </div>
-            <input id="dropzone-file" type="file" className="hidden" />
+            Upload file -{" "}
+            {thumbnailString && (
+              <Link href={thumbnailString} className="text-blue-400">
+                Already Uploaded file
+              </Link>
+            )}
           </label>
-        </div> */}
+          <input
+            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="file_input"
+            type="file"
+            hidden
+            accept="image/png, image/jpeg"
+            onChange={handleChange}
+          />
+        </div>
 
         <div>
           <label className="inline-flex items-center mb-5 cursor-pointer">
-            <input type="checkbox" value="" className="sr-only peer" />
+            <input
+              type="checkbox"
+              // value={visible}
+              checked={visible == "private"}
+              onChange={(e) =>
+                setVisible(e.target.checked ? "private" : "public")
+              }
+              className="sr-only peer"
+            />
             <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
               Private
             </span>
           </label>
         </div>
+        {error && <p className="text-red-600">{error}</p>}
         <label
-          htmlFor="message"
+          htmlFor="Content"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Content
@@ -93,13 +190,18 @@ const EditPage = () => {
         </div>
         <button
           type="button"
+          onClick={submitHandler}
           className="block text-white bg-gray-800 hover:bg-gray-900 text-center focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-cyan-500 dark:hover:bg-cyan-700 dark:focus:ring-gray-700 dark:border-gray-700"
         >
-          Post
+          {loading ? (
+            <PiSpinnerGapThin className="inline text-center" />
+          ) : (
+            "Post"
+          )}
         </button>
       </form>
     </div>
   );
 };
 
-export default EditPage;
+export default EditPost;

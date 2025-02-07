@@ -1,11 +1,8 @@
 import React from "react";
 
-const page = async () => {
+const loading = () => {
   return (
-    <div
-      role="status"
-      className="min-h-80 flex justify-center items-center"
-    >
+    <div role="status" className="min-h-80 flex justify-center items-center">
       <svg
         aria-hidden="true"
         className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300"
@@ -27,4 +24,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default loading;
