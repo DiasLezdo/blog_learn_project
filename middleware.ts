@@ -7,16 +7,25 @@ export async function middleware(request: NextRequest) {
   const pathname = url.pathname;
 
   try {
-    // **1️⃣ Instrumentation Error Handling**
-    // if (pathname.startsWith("/")) {
-    //   try {
-    //     // Simulate instrumentation logic (error handling)
-    //     throw new Error("Instrumentation error occurred");
-    //   } catch (error) {
-    //     console.error("Middleware caught instrumentation error:", error);
-    //     return NextResponse.redirect(new URL("/error/server", request.url));
-    //   }
-    // }
+    // **1️⃣ Register Error Handling**
+    if (
+      pathname.startsWith("/signin") ||
+      pathname.startsWith("/signup") ||
+      pathname.startsWith("/password")
+    ) {
+      const session = await request.cookies.get("session"); // Check if session exists
+
+      if (session?.value) {
+        return NextResponse.redirect(new URL("/home", request.url));
+      }
+      // try {
+      //   // Simulate instrumentation logic (error handling)
+      //   throw new Error("Instrumentation error occurred");
+      // } catch (error) {
+      //   console.error("Middleware caught instrumentation error:", error);
+      //   return NextResponse.redirect(new URL("/error/server", request.url));
+      // }
+    }
 
     // **2️⃣ Session Handling (Protect User Routes)**
     if (
@@ -88,5 +97,10 @@ export const config = {
     "/profile", // Match all under /profile (session check)
     "/:path*", // Match all under /instrumentation
     "/admin/:path*", // Match all under /admin (admin check)
+
+    // with session navigate
+    "/password", // Match all under /post (session check)
+    "/signup", // Match all under /post (session check)
+    "/signin", // Match all under /post (session check)
   ],
 };
