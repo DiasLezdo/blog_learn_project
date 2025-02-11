@@ -2,7 +2,13 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { PiSpinnerGapThin } from "react-icons/pi";
 
 const JoditEdit = dynamic(() => import("@/app/components/JoditEdit"), {
@@ -22,31 +28,29 @@ const EditPost = () => {
   const params = useParams<{ id: string }>();
   const router = useRouter();
 
-  async function getData() {
+  const getData = useCallback(async () => {
     setLoading(true);
-
     const post = await fetch("/api/post/" + params.id);
     const result = await post.json();
 
-    if (post.status == 200) {
+    if (post.status === 200) {
       console.log("post", result);
-      await setData(result.post.content);
-      await setTitle(result.post.title);
-      await setDescription(result.post.description);
-      await setVisible(result.post.visible);
-      await setThumbnailString(result.post.thumbnail);
-      await setLoading(false);
-      return;
-    } else if (post.status == 401) {
-      return setError(result.error);
+      setData(result.post.content);
+      setTitle(result.post.title);
+      setDescription(result.post.description);
+      setVisible(result.post.visible);
+      setThumbnailString(result.post.thumbnail);
+      setLoading(false);
+    } else if (post.status === 401) {
+      setError(result.error);
     } else {
-      return router.push("/home");
+      router.push("/home");
     }
-  }
+  }, [params.id, router]); // include router if it can change
 
   useEffect(() => {
     getData();
-  }, [params.id]);
+  }, [getData]);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; // Check if files is not null and get the first file

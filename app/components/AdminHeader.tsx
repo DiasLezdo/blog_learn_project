@@ -6,7 +6,6 @@ interface Props {
 }
 
 const AdminHeader = async ({ isAdmin }: Props) => {
-  console.log("isAdmin", isAdmin);
   return (
     <div className="flex flex-row items-center gap-3">
       {isAdmin && <Link href={"/admin/posts"}>Ad Posts</Link>}

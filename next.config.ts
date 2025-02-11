@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img.olympics.com",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.rareblocks.xyz",
+      },
     ],
   },
 };

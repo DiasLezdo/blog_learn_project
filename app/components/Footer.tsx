@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaBlog } from "react-icons/fa6";
 
@@ -17,19 +18,22 @@ const Footer = () => {
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
             <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
+              <Link href="/about" className="hover:underline me-4 md:me-6">
                 About
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:underline me-4 md:me-6">
+              <Link
+                href="privacyandpolicy"
+                className="hover:underline me-4 md:me-6"
+              >
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              <Link href="/contact" className="hover:underline">
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
