@@ -23,7 +23,7 @@ const page = async ({
     return redirect("/error/other");
   }
   const users = await User.find()
-    .sort("createdAt")
+    .sort({ timestamp: -1 })
     .limit(parseInt((await searchParams).page) ?? 9);
 
   return (

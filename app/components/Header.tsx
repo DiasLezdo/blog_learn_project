@@ -27,7 +27,7 @@ const Header: React.FC = async () => {
             <FaBlog />
           </Link>
         </h1>
-        <AdminHeader isAdmin={isAdmin} />
+        {isAdmin && <AdminHeader />}
       </div>
       <NavBtn />
     </div>

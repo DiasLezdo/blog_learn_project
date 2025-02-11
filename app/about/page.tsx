@@ -45,13 +45,13 @@ const page = async () => {
           <div className="relative">
             <Image
               className="absolute inset-x-0 bottom-0 -mb-48 left-1/2"
-              src="https://cdn.rareblocks.xyz/collection/celebration/images/team/1/blob-shape.svg"
+              src="/about/blob-shape.svg"
               alt=""
               fill
             />
             <Image
               className="relative w-full xl:max-w-lg xl:mx-auto 2xl:origin-bottom 2xl:scale-110"
-              src="https://cdn.rareblocks.xyz/collection/celebration/images/team/1/business-woman.png"
+              src="/about/business-woman.png"
               alt=""
               width={500}
               height={500}

@@ -23,7 +23,7 @@ const page = async ({
     return redirect("/error/other");
   }
   const post = await Post.find()
-    .sort("createdAt")
+    .sort({ timestamp: -1 })
     .limit(parseInt((await searchParams).page) ?? 9)
     .select({ title: 1, thumbnail: 1, description: 1 });
 

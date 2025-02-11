@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const post = ((await Post.findById(postId)) as IPost) || null;
 
-    console.log("post", post);
+    // console.log("post", post);
 
     if (!post) {
       return new Response(JSON.stringify({ message: "Post not found" }), {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     // Get session cookie
     const gg = await req.cookies.get("session");
 
-    console.log('gg', gg)
+    // console.log('gg', gg)
 
     if (!gg) {
       return new Response(JSON.stringify({ error: "Session not found" }), {
