@@ -19,7 +19,7 @@ const Header: React.FC = async () => {
         <h1 className="text-5xl dark:text-cyan-500 font-signature ml-2">
           <Link
             className="link-underline link-underline-black"
-            href="/home"
+            href="/"
             target="_blank"
             rel="noreferrer"
           >

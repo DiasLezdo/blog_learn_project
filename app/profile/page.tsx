@@ -4,6 +4,19 @@ import { headers } from "next/headers";
 import { decrypt } from "@/libs/session";
 import { redirect } from "next/navigation";
 import User from "@/models/user";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Belogoo Profile",
+  description: "Profile by Belogoo",
+  icons: {
+    icon: [
+      {
+        url: "/favicon/profile.ico",
+      },
+    ],
+  },
+};
 
 const page = async () => {
   const head = await headers();

@@ -3,9 +3,32 @@ import React from "react";
 import PostProfile from "./PostProfile";
 import Comments from "@/app/components/Comments";
 import AddComment from "@/app/components/AddComment";
+import { Metadata } from "next";
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const post = await Post.findById((await params).id);
+  return {
+    title: post?.title || "Default Title",
+    // Here we're using the first 150 characters of the post content for the description.
+    description: post?.content
+      ? post.content.replace(/<[^>]+>/g, "").substring(0, 150)
+      : "Default description",
+    icons: {
+      icon: [
+        {
+          url: "/favicon/blog.ico",
+        },
+      ],
+    },
+  };
 }
 
 const page = async ({ params }: Props) => {
