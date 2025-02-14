@@ -5,6 +5,12 @@ import Comments from "@/app/components/Comments";
 import AddComment from "@/app/components/AddComment";
 import { Metadata } from "next";
 
+// The error indicates that Mongoose doesn't know about the "User" model when you try to populate it in your Post query.
+// Even though you've defined and exported the User model, you need to make sure it's imported (and therefore registered)
+// somewhere in your app before you try to use it in a population.
+
+import "@/models/user";
+
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -16,10 +22,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const post = await Post.findById((await params).id);
   return {
+    metadataBase: new URL(
+      `${process.env.NEXT_PUBLIC_URL!}/home/${(await params).id}`
+    ),
     title: post?.title || "Default Title",
     // Here we're using the first 150 characters of the post content for the description.
-    description: post?.content
-      ? post.content.replace(/<[^>]+>/g, "").substring(0, 150)
+    description: post?.description
+      ? post.description.substring(0, 150)
       : "Default description",
     icons: {
       icon: [
@@ -27,6 +36,29 @@ export async function generateMetadata({
           url: "/favicon/blog.ico",
         },
       ],
+    },
+    openGraph: {
+      title: post?.title || "Welcome to Blogoo",
+      description: post?.description
+        ? post.description.substring(0, 150)
+        : "Unlock your full potential with expert-led insights and tips. Explore new skills and elevate your knowledge, one blog at a time.",
+
+      url: `${process.env.NEXT_PUBLIC_URL!}/home/${(await params).id}`,
+      images: [
+        {
+          url: post?.thumbnail
+            ? post?.thumbnail
+            : "/favicon/freepik__the-style-is-candid-image-photography-with-natural__70521.png",
+          secureUrl: post?.thumbnail
+            ? post?.thumbnail
+            : "/favicon/freepik__the-style-is-candid-image-photography-with-natural__70521.png",
+          width: 1200,
+          height: 630,
+          alt: "blogoo preview",
+        },
+      ],
+      type: "website",
+      siteName: `${process.env.NEXT_PUBLIC_URL!}/home/${(await params).id}`,
     },
   };
 }
@@ -65,9 +97,10 @@ const page = async ({ params }: Props) => {
               updatedAt={post.updatedAt}
               title={post.title}
             />
-            <div className="bg-white">
+            <div className="bg-gray-300 p-2 rounded-sm">
               {/* <pre>{post.content}</pre> */}
-              <p dangerouslySetInnerHTML={{ __html: post.content }}></p>
+              {/* <p dangerouslySetInnerHTML={{ __html: post.content }}></p> */}
+              <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
             </div>
 
             <section className="not-format">
