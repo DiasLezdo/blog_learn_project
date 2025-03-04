@@ -3,12 +3,16 @@ import PostCard from "../components/PostCard";
 import Footer from "../components/Footer";
 import Post from "@/models/post";
 import Link from "next/link";
+import dbConnect from "@/libs/dbConn";
 
 const page = async ({
   searchParams,
 }: {
   searchParams: Promise<{ page: string }>;
 }) => {
+  
+  await dbConnect();
+
   const post = await Post.find({ visible: "public" })
     .sort("createdAt")
     .limit(parseInt((await searchParams).page) ?? 9)
