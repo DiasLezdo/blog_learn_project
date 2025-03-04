@@ -2,12 +2,15 @@ import React from "react";
 import Link from "next/link";
 import FeedBack from "@/models/feedback";
 import FeedBackCard from "@/app/components/FeedBackCard";
+import dbConnect from "@/libs/dbConn";
 
 const page = async ({
   searchParams,
 }: {
   searchParams: Promise<{ page: string }>;
 }) => {
+  await dbConnect();
+
   const feedBacks = await FeedBack.find()
     .sort({ timestamp: -1 })
     .limit(parseInt((await searchParams).page) ?? 9);

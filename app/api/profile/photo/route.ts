@@ -2,6 +2,7 @@ import { decrypt } from "@/libs/session";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import dbConnect from "@/libs/dbConn";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -13,6 +14,10 @@ cloudinary.config({
 
 export async function PUT(req: NextRequest) {
   try {
+
+
+    await dbConnect();
+
     const formData = await req.formData();
 
     const file = formData.get("file") as File;

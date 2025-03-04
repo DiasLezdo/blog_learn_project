@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { decrypt } from "@/libs/session";
 import PostCard from "@/app/components/PostCard";
+import dbConnect from "@/libs/dbConn";
 
 const page = async ({
   searchParams,
@@ -22,6 +23,10 @@ const page = async ({
   if (decrp?.role !== 1) {
     return redirect("/error/other");
   }
+
+
+  await dbConnect();
+
   const post = await Post.find()
     .sort({ timestamp: -1 })
     .limit(parseInt((await searchParams).page) ?? 9)

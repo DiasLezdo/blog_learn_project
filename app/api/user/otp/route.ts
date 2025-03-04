@@ -1,3 +1,4 @@
+import dbConnect from "@/libs/dbConn";
 import { sendMail } from "@/libs/mailTrigger";
 import { createSession, generateRandomString } from "@/libs/session";
 import OtpToken, { IOtpToken } from "@/models/otptoken";
@@ -7,6 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    await dbConnect();
 
     const { otp, type } = await req.json();
 
@@ -117,7 +119,6 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const headers = req.headers;
 
-
   console.log(headers);
 
   // Access a specific header, like "User-Agent"
@@ -127,6 +128,8 @@ export async function GET(req: NextRequest) {
   if (!userAgent) {
     return NextResponse.json({ error: "Not Authorized." }, { status: 404 });
   }
+
+  await dbConnect();
 
   const user = (await User.findOne({ email: userAgent })) as IUser | null;
 

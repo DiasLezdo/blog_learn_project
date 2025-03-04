@@ -5,9 +5,12 @@ import { createSession, generateRandomString } from "@/libs/session";
 import OtpToken, { IOtpToken } from "@/models/otptoken";
 import { HydratedDocument } from "mongoose";
 import { sendMail } from "@/libs/mailTrigger";
+import dbConnect from "@/libs/dbConn";
 
 export async function POST(req: NextRequest) {
   try {
+
+    await dbConnect();
 
     const { email, password } = await req.json();
 

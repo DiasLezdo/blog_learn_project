@@ -4,6 +4,7 @@ import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import dbConnect from "@/libs/dbConn";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -15,6 +16,9 @@ cloudinary.config({
 
 export async function POST(req: NextRequest) {
   try {
+
+    await dbConnect();
+
     // Access form data from the request
     const data = await req.formData(); // Correcting formData() usage
 

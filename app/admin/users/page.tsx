@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { decrypt } from "@/libs/session";
 import AdminUsers from "@/app/components/AdminUsers";
 import User from "@/models/user";
+import dbConnect from "@/libs/dbConn";
 
 const page = async ({
   searchParams,
@@ -22,6 +23,9 @@ const page = async ({
   if (decrp?.role !== 1) {
     return redirect("/error/other");
   }
+
+  await dbConnect();
+
   const users = await User.find()
     .sort({ timestamp: -1 })
     .limit(parseInt((await searchParams).page) ?? 9);

@@ -1,3 +1,4 @@
+import dbConnect from "@/libs/dbConn";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,6 +8,8 @@ export async function GET() {
 
 export async function DELETE(req: NextRequest) {
   try {
+    await dbConnect();
+
     const { id } = await req.json();
 
     await User.findByIdAndDelete(id);

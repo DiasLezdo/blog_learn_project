@@ -6,6 +6,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { decrypt } from "@/libs/session";
+import dbConnect from "@/libs/dbConn";
 
 const page = async ({
   searchParams,
@@ -18,6 +19,7 @@ const page = async ({
     return redirect("/signin");
   }
 
+  await dbConnect();
   const decrp = await decrypt(gg?.value);
 
   const post = await Post.find({ createdUser: decrp?._id })

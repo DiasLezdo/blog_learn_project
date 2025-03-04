@@ -3,6 +3,7 @@ import Post from "@/models/post";
 import { NextRequest, NextResponse } from "next/server";
 
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import dbConnect from "@/libs/dbConn";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -16,6 +17,10 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+
+
+  await dbConnect();
+
   const postId = (await params).id;
 
   const gg = await req.cookies.get("session");
@@ -54,6 +59,9 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+
+    await dbConnect();
+
     const postId = (await params).id;
     const data = await req.formData();
 
@@ -167,6 +175,9 @@ export async function DELETE(
   if (!sessionValue) {
     return NextResponse.json({ error: "invalid Session" }, { status: 400 });
   }
+
+
+  await dbConnect();
 
   const post = await Post.findById(postId);
 

@@ -1,3 +1,4 @@
+import dbConnect from "@/libs/dbConn";
 import { decrypt } from "@/libs/session";
 import Post, { IPost } from "@/models/post";
 import { NextRequest, NextResponse } from "next/server";
@@ -6,6 +7,9 @@ export async function POST(req: NextRequest) {
   const { comment, postId } = await req.json();
 
   try {
+
+    await dbConnect();
+
     const post = ((await Post.findById(postId)) as IPost) || null;
 
     // console.log("post", post);
@@ -86,6 +90,9 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
+
+    await dbConnect();
+
     // Use the $pull operator to remove the comment with the specified _id from the comments array
     const updatedPost = await Post.findByIdAndUpdate(
       postId,

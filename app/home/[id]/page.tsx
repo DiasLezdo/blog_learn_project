@@ -10,6 +10,7 @@ import { Metadata } from "next";
 // somewhere in your app before you try to use it in a population.
 
 import "@/models/user";
+import dbConnect from "@/libs/dbConn";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -20,6 +21,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
+  await dbConnect();
+
   const post = await Post.findById((await params).id);
   return {
     metadataBase: new URL(

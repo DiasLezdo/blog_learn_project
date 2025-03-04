@@ -5,6 +5,7 @@ import { decrypt } from "@/libs/session";
 import { redirect } from "next/navigation";
 import User from "@/models/user";
 import { Metadata } from "next";
+import dbConnect from "@/libs/dbConn";
 
 export const metadata: Metadata = {
   title: "Belogoo Profile",
@@ -30,6 +31,8 @@ const page = async () => {
   const decryptValue = await decrypt(cookieValue);
 
   try {
+    await dbConnect();
+
     const user = await User.findById(decryptValue?._id, {
       firstName: 1,
       lastName: 1,

@@ -1,9 +1,13 @@
+import dbConnect from "@/libs/dbConn";
 import FeedBack, { IFeedBack } from "@/models/feedback";
 import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+
+    await dbConnect();
+
     const data = await req.formData();
 
     const newReview: HydratedDocument<IFeedBack> = await new FeedBack({
