@@ -67,6 +67,8 @@ export async function generateMetadata({
 }
 
 const page = async ({ params }: Props) => {
+  await dbConnect();
+
   const postId = (await params).id;
 
   const post = await Post.findById(postId)
@@ -92,7 +94,7 @@ const page = async ({ params }: Props) => {
           <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
             <PostProfile
               firstName={post.createdUser?.firstName}
-              avatar={post.createdUser?.avatar}
+              avatar={post.createdUser?.avatar || ""}
               facebook={post.createdUser?.socialLinks?.facebook}
               twitter={post.createdUser?.socialLinks?.twitter}
               linkedin={post.createdUser?.socialLinks?.linkedin}

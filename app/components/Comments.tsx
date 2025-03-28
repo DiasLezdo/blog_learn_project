@@ -33,7 +33,7 @@ const Comments = async ({ commentsData, postId, userId }: Props) => {
     <>
       {commentsData.map((comment: IComment) => (
         <article
-          key={comment._id}
+          key={comment?._id}
           className="p-6 mb-6 text-base bg-white rounded-lg dark:bg-gray-900"
         >
           <footer className="flex justify-between items-center mb-2">
@@ -42,30 +42,30 @@ const Comments = async ({ commentsData, postId, userId }: Props) => {
                 <Image
                   className="mr-2 w-6 h-6 rounded-full"
                   src={
-                    comment.user.avatar
+                    comment?.user?.avatar
                       ? comment.user.avatar
                       : "/profile/nopro.webp"
                   }
-                  alt={comment.user.firstName}
+                  alt={comment?.user?.firstName}
                   height={18}
                   width={18}
                 />
-                {comment.user.firstName}
+                {comment?.user?.firstName}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {new Date(comment.createdAt).toLocaleDateString()}
               </p>
             </div>
             {(decrpt?.role === 1 ||
-              comment.user._id.toString() === decrpt?._id ||
+              comment?.user?._id.toString() === decrpt?._id ||
               userId.toString() === decrpt?._id) && (
               <CommentAction
-                commentId={comment._id.toString()}
+                commentId={comment?._id.toString()}
                 postId={postId}
               />
             )}
           </footer>
-          <p className="dark:text-gray-400">{comment.text}</p>
+          <p className="dark:text-gray-400">{comment?.text}</p>
         </article>
       ))}
     </>

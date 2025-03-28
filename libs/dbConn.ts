@@ -11,7 +11,7 @@ if (!cached) {
 }
 
 async function dbConnect() {
-  const MONGODB_URI = process.env.MONGODB_URI!;
+  const MONGODB_URI = process.env.MONGODB_URI;
 
   if (!MONGODB_URI) {
     throw new Error(
@@ -28,9 +28,9 @@ async function dbConnect() {
     };
     cached.promise = await mongoose
       .connect(MONGODB_URI, opts)
-      .then((mongoose) => {
+      .then((mongooseInstance) => {
         console.log("Db connected");
-        return mongoose;
+        return mongooseInstance;
       })
       .catch((err) => {
         console.error(err);
