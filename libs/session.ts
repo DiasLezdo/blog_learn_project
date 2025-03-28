@@ -71,8 +71,8 @@ export async function updateSession() {
 export async function deleteSession() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
-
-  return redirect("/signin");
+  return;
+  // return redirect("/signin");
 }
 
 export async function generateRandomString(length: number) {
@@ -84,4 +84,11 @@ export async function generateRandomString(length: number) {
     result += characters[randomIndex];
   }
   return result;
+}
+
+export async function getSession() {
+  const cookieStore = await cookies();
+
+  return cookieStore.get("session");
+  // return redirect("/signin");
 }

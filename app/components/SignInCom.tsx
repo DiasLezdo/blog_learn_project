@@ -51,7 +51,8 @@ const SignInCom = () => {
     setLoading(false);
 
     if (res.status == 200) {
-      return router.push("/home");
+      return router.refresh();
+      // return router.push("/home");
     } else if (res.status == 201) {
       return navToOtp(result.user);
     } else {
